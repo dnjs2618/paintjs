@@ -7,13 +7,15 @@ const save = document.getElementById("jssave");
 const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = 500;
 const CANVAS_HEIGHT = 450;
-let isFill = false;
 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 ctx.lineWidth = 1.0;
 ctx.strokeStyle = "#2f2f2f";
 let painting = false;
+let isFill = false;
 
 function HandleMousemove(event) {
   const x = event.offsetX;
@@ -63,6 +65,14 @@ function HandleRightMouse(event) {
   event.preventDefault();
 }
 
+function HandleSave() {
+  const url = canvas.toDataURL();
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "PAINTJS.png";
+  link.click();
+}
+
 function init() {
   canvas.addEventListener("mousemove", HandleMousemove);
   canvas.addEventListener("mousedown", startPainting);
@@ -70,6 +80,7 @@ function init() {
   canvas.addEventListener("mouseup", stopPainting);
   fill.addEventListener("click", HandleFill);
   canvas.addEventListener("contextmenu", HandleRightMouse);
+  save.addEventListener("click", HandleSave);
 }
 if (color) {
   Array.from(color).forEach((color) =>
